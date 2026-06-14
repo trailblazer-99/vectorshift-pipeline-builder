@@ -102,7 +102,6 @@ export const SubmitButton = () => {
         </div>
       )}
 
-      {/* Embedded CSS animation for spinner */}
       <style>{`
         @keyframes spin {
           to { transform: rotate(360deg); }

@@ -1,24 +1,24 @@
-# VectorShift Pipeline Builder Assessment
+# VectorShift Flow
 
-A modular, interactive workflow pipeline builder built with **React Flow** (Frontend) and **FastAPI** (Backend). Features an elegant brand styling supporting light and dark themes, dynamic handle generation, auto-resizing text boxes, and topological Directed Acyclic Graph (DAG) validation.
+A visual workflow editor for building and validating pipeline graphs. It features a modular node layout framework, dynamic connection ports, automated canvas centering, system-synchronized themes, and an optimized graph cycle detection validator.
 
 ---
 
-## 🚀 Key Features
+## 🚀 Core Features
 
-* **Modular Node Wrapper (`BaseNode.js`)**: Reduces code duplication across React Flow components by abstracting node headers, close buttons, deletion handlers, and dynamic connection ports.
-* **9 Pre-configured Nodes**:
-  * *General*: Input, Output, LLM, Text
+* **Modular Node Layer (`BaseNode.js`)**: Eliminates redundant node boilerplates by abstracting headers, status tags, delete buttons, and handle mapping.
+* **9 Out-of-the-Box Nodes**:
+  * *General & IO*: Input, Output, LLM Engine, Text Block
   * *Logic*: Conditional Router
-  * *Integrations*: REST API, Database (PostgreSQL/MySQL/MongoDB), Auth Key Manager, Prompt Template
-* **Reactive Handles & Auto-sizing (`TextNode`)**:
-  * Parses JavaScript variable syntax (e.g. `{{variable}}`) inside text areas and generates matching connection handles dynamically.
-  * Dynamically scales the height and width of text areas on input to prevent overlapping labels.
-* **Warm Editorial Brand Theme & Dark Mode**:
-  * *Light Mode*: Cream canvas background (`#FFFEFB`), paper cards, serif headings (`Newsreader`), and gold active states.
-  * *Dark Mode*: Sleek high-contrast slate layout with radial neon-gold ambient glows.
-* **Canvas Auto-Fitting**: Drops new nodes and automatically scales/centers the canvas viewport smoothly using React Flow's `fitView` animation.
-* **FastAPI DAG Validation**: An optimized Depth-First Search (DFS) back-edge checking algorithm that evaluates if a pipeline contains loops before execution, rendering results in a dashboard modal.
+  * *Integrations*: REST API, Database Query, Auth Key, Prompt Template
+* **Dynamic Handle Generation**:
+  * Parses variable syntax (e.g. `{{variable}}`) inside inputs and textboxes, dynamically spawning target connection ports on the left side.
+  * Node heights auto-scale based on the number of dynamic ports to prevent overlap.
+* **System-Aware Theme Engine**:
+  * Features a 3-way toggle: Auto (system preferences), Light (editorial warm paper), and Dark (slate glow).
+  * Frosted glass backdrop filters blend node panels smoothly with the background layer.
+* **Auto-Resizing Viewport**: Instantly focuses and scales the canvas viewport (`fitView`) as nodes are dropped.
+* **Cycle Detection Validator**: Checks pipelines against a FastAPI DFS topological search to identify loops and back-edges, rendering graph validation statistics in an interactive dashboard modal.
 
 ---
 
