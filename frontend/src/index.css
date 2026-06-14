@@ -3,7 +3,7 @@
 :root {
   --bg-color: #FFFEFB;
   --bg-alt: #FCF9F0;
-  --panel-bg: #FBF9F4;
+  --panel-bg: rgba(251, 249, 244, 0.78);
   --panel-border: #D9D3C5;
   --panel-border-glow: #BFB7A4;
   
@@ -29,7 +29,7 @@
 .dark-mode {
   --bg-color: #030712;
   --bg-alt: #0b1329;
-  --panel-bg: rgba(17, 24, 39, 0.9);
+  --panel-bg: rgba(17, 24, 39, 0.78);
   --panel-border: rgba(255, 255, 255, 0.16);
   --panel-border-glow: rgba(255, 255, 255, 0.3);
   
@@ -75,15 +75,23 @@ body::before {
   height: 100vh;
   width: 100vw;
   position: relative;
-  transition: background 0.3s ease;
+  transition: background 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .app-container.light-mode {
-  background-color: var(--bg-color);
+  background: 
+    radial-gradient(at 0% 0%, rgba(193, 211, 241, 0.45) 0px, transparent 55%), 
+    radial-gradient(at 100% 0%, rgba(247, 212, 222, 0.45) 0px, transparent 55%), 
+    radial-gradient(at 50% 100%, rgba(220, 240, 215, 0.35) 0px, transparent 60%), 
+    #FFFEFB;
 }
 
 .app-container.dark-mode {
-  background: radial-gradient(circle at 50% 50%, #0d1527 0%, #02040a 100%);
+  background: 
+    radial-gradient(at 0% 0%, rgba(26, 42, 86, 0.6) 0px, transparent 60%), 
+    radial-gradient(at 100% 0%, rgba(53, 22, 70, 0.6) 0px, transparent 60%), 
+    radial-gradient(at 50% 100%, rgba(10, 48, 54, 0.45) 0px, transparent 65%), 
+    #050811;
 }
 
 /* React Flow Canvas Wrapper */
@@ -108,6 +116,8 @@ body::before {
   gap: 12px;
   box-shadow: 0 4px 16px rgba(15, 19, 26, 0.05);
   z-index: 10;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 .toolbar-title {
@@ -231,6 +241,8 @@ body::before {
   box-shadow: 0 2px 12px rgba(15, 19, 26, 0.04);
   transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
   overflow: visible;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
 }
 
 .custom-node:hover {
@@ -574,6 +586,8 @@ body::before {
   text-align: center;
   font-family: var(--font-sans);
   animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
 
 .dark-mode .modal-content {
