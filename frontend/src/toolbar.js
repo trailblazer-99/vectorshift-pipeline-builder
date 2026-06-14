@@ -14,8 +14,24 @@ import {
 } from 'lucide-react';
 
 export const PipelineToolbar = () => {
-  const darkMode = useStore((state) => state.darkMode);
-  const toggleDarkMode = useStore((state) => state.toggleDarkMode);
+  const themeMode = useStore((state) => state.themeMode);
+  const setThemeMode = useStore((state) => state.setThemeMode);
+
+  const handleThemeCycle = () => {
+    if (themeMode === 'system') {
+      setThemeMode('light');
+    } else if (themeMode === 'light') {
+      setThemeMode('dark');
+    } else {
+      setThemeMode('system');
+    }
+  };
+
+  const getThemeLabel = () => {
+    if (themeMode === 'system') return '💻 Auto';
+    if (themeMode === 'light') return '☀️ Light';
+    return '🌙 Dark';
+  };
 
   return (
     <div className="toolbar-container">
@@ -25,11 +41,12 @@ export const PipelineToolbar = () => {
         </div>
         <button 
           type="button" 
-          onClick={toggleDarkMode}
+          onClick={handleThemeCycle}
           className="theme-toggle-btn"
-          title="Toggle Dark/Light Mode"
+          title={`Active Theme: ${themeMode.toUpperCase()}. Click to cycle (Auto -> Light -> Dark).`}
+          style={{ minWidth: '95px' }}
         >
-          {darkMode ? '☀️ Light' : '🌙 Dark'}
+          {getThemeLabel()}
         </button>
       </div>
       <div className="toolbar-sections">

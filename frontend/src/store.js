@@ -11,9 +11,22 @@ import {
 export const useStore = create((set, get) => ({
     nodes: [],
     edges: [],
+    themeMode: 'system',
     darkMode: false,
-    toggleDarkMode: () => {
-        set({ darkMode: !get().darkMode });
+    setThemeMode: (mode) => {
+        set({ themeMode: mode });
+        get().updateEffectiveTheme();
+    },
+    updateEffectiveTheme: () => {
+        const { themeMode } = get();
+        if (themeMode === 'dark') {
+            set({ darkMode: true });
+        } else if (themeMode === 'light') {
+            set({ darkMode: false });
+        } else {
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            set({ darkMode: systemDark });
+        }
     },
     getNodeID: (type) => {
         const newIDs = {...get().nodeIDs};
