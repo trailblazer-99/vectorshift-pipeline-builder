@@ -1,86 +1,85 @@
 # VectorShift Flow
 
-A visual workflow editor for building and validating pipeline graphs. It features a modular node layout framework, dynamic connection ports, automated canvas centering, system-synchronized themes, and an optimized graph cycle detection validator.
+This is a visual workflow editor for building and validating pipeline graphs. I built the frontend using **React Flow** with a custom component abstraction layer, and the backend using **FastAPI** to handle graph validation and topological cycle checks.
 
 ---
 
-## 🚀 Core Features
+## 🛠️ Architecture & Features
 
-* **Modular Node Layer (`BaseNode.js`)**: Eliminates redundant node boilerplates by abstracting headers, status tags, delete buttons, and handle mapping.
-* **9 Out-of-the-Box Nodes**:
-  * *General & IO*: Input, Output, LLM Engine, Text Block
+* **BaseNode Component (`BaseNode.js`)**: Instead of writing duplicate boilerplate for every React Flow card, I designed a reusable node wrapper that manages title splitting, deletion logic (cleaning up nodes and connected edges), and handle layouts.
+* **9 Custom Nodes**:
+  * *General*: Input, Output, LLM, Text
   * *Logic*: Conditional Router
   * *Integrations*: REST API, Database Query, Auth Key, Prompt Template
-* **Dynamic Handle Generation**:
-  * Parses variable syntax (e.g. `{{variable}}`) inside inputs and textboxes, dynamically spawning target connection ports on the left side.
-  * Node heights auto-scale based on the number of dynamic ports to prevent overlap.
-* **System-Aware Theme Engine**:
-  * Features a 3-way toggle: Auto (system preferences), Light (editorial warm paper), and Dark (slate glow).
-  * Frosted glass backdrop filters blend node panels smoothly with the background layer.
+* **Variable Parsing & Dynamic Ports**:
+  * The `Text` and `Prompt` nodes look for variables declared in double curly brackets `{{var_name}}` and automatically mount corresponding target handles on the left.
+  * Node heights scale dynamically based on the number of active variables to prevent overlapping connections.
+* **Visual Theme & Dark Mode**:
+  * Designed a warm, editorial layout (cream canvas background `#FFFEFB`, beige card panels, serif typography, and gold active states).
+  * Added a 3-way toggle button cycling through **Auto (System Theme)**, **Light**, and **Dark** modes.
+  * Integrated a frosted glass backdrop blur (`backdrop-filter`) to blend node cards with the Mica-style ambient canvas backgrounds.
 * **Auto-Resizing Viewport**: Instantly focuses and scales the canvas viewport (`fitView`) as nodes are dropped.
-* **Cycle Detection Validator**: Checks pipelines against a FastAPI DFS topological search to identify loops and back-edges, rendering graph validation statistics in an interactive dashboard modal.
+* **DAG validation**: An optimized DFS topological sort on the backend to detect cycles and output node/edge stats in a dashboard modal.
 
 ---
 
-## 📂 Repository Structure
+## 📂 Project Structure
 
 ```text
 ├── backend/
-│   ├── main.py            # FastAPI server & DFS cycle-checking algorithm
-│   └── requirements.txt   # Python deployment dependencies
+│   ├── main.py            # FastAPI entry-point & DFS cycle check logic
+│   └── requirements.txt   # Python server requirements
 ├── frontend/
-│   ├── public/
+│   ├── public/            # Static assets and site metadata
 │   ├── src/
-│   │   ├── nodes/         # Core React Flow node components
-│   │   │   ├── BaseNode.js # Main OOP-style abstract node layout
-│   │   │   └── ...        # Input, Output, LLM, Text, Custom Nodes
-│   │   ├── submit.js      # Submit button & pipeline validation status modal
-│   │   ├── index.css      # CSS styling & Light/Dark variables
-│   │   └── ...            # Store, Toolbar, and Canvas entry-points
+│   │   ├── nodes/         # React Flow custom node files
+│   │   │   ├── BaseNode.js # Modular abstract node wrapper
+│   │   │   └── ...        # Sub-node components
+│   │   ├── submit.js      # Submit button & validation stats modal
+│   │   ├── index.css      # Style system & custom HSL colors
+│   │   └── ...            # Canvas, Toolbar, and Store setup
 │   └── package.json       # React dependencies
-└── README.md              # Global repository guide
+└── README.md
 ```
 
 ---
 
-## 🛠️ Local Installation & Setup
+## 💻 Local Setup
 
-### 1. Run the Python Backend
-From your terminal, navigate to the `backend` folder and run:
+### 1. Start the Backend (FastAPI)
+Open a terminal in the `backend` folder and run:
 ```bash
-cd backend
 pip install -r requirements.txt
 python -m uvicorn main:app --reload
 ```
-*The server launches at `http://localhost:8000`.*
+*The API runs at `http://localhost:8000`.*
 
-### 2. Run the React Frontend
-Open a separate terminal, navigate to the `frontend` folder and run:
+### 2. Start the Frontend (React)
+Open a separate terminal in the `frontend` folder and run:
 ```bash
-cd frontend
 npm install
 npm start
 ```
-*The web interface will compile and open at `http://localhost:3000`.*
+*The app will automatically open in the browser at `http://localhost:3000`.*
 
 ---
 
-## ☁️ Cloud Deployment
+## ☁️ Deployment Guide
 
-### Backend (Render)
-1. Register on [Render](https://render.com/) and create a **Web Service**.
-2. Connect this repository.
-3. Configure settings:
-   * **Root Directory**: `backend`
-   * **Build Command**: `pip install -r requirements.txt`
-   * **Start Command**: `python -m uvicorn main:app --host 0.0.0.0 --port $PORT`
-4. Copy the live API URL generated (e.g. `https://my-backend.onrender.com`).
+Here is how I set up the cloud hosting configuration for both services:
 
-### Frontend (Vercel)
-1. Register on [Vercel](https://vercel.com/) and create a **New Project**.
-2. Configure settings:
-   * **Root Directory**: `frontend`
-   * **Framework Preset**: `Create React App`
-3. Add **Environment Variables**:
-   * Set `REACT_APP_BACKEND_URL` to your Render backend URL (e.g., `https://my-backend.onrender.com`).
-4. Click **Deploy**.
+### 🐍 FastAPI Backend (Render)
+1. Set up a new **Web Service** pointing to the repository.
+2. Select **Root Directory**: `backend`
+3. Select **Language**: `Python 3`
+4. Set **Build Command**: `pip install -r requirements.txt`
+5. Set **Start Command**: `python -m uvicorn main:app --host 0.0.0.0 --port $PORT`
+6. Set the **Environment Variable** `PYTHON_VERSION` to `3.11.8`.
+
+### ⚛️ React Frontend (Vercel)
+1. Import the project on Vercel.
+2. Set **Root Directory**: `frontend`
+3. Set **Framework Preset**: `Create React App`
+4. Add the following **Environment Variable**:
+   * `REACT_APP_BACKEND_URL`: *[Link to your Render backend web service]* (e.g. `https://my-backend.onrender.com` without a trailing slash).
+5. Click **Deploy**.
