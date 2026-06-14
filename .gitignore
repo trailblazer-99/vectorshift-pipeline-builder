@@ -1,0 +1,18 @@
+# Node
+**/node_modules/
+**/build/
+.eslintcache
+
+# Python
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.venv/
+env/
+venv/
+ENV/
+
+# OS/System
+.DS_Store
+Thumbs.db
