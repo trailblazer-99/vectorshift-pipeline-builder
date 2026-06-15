@@ -75,4 +75,4 @@ npm start
 ### Frontend (Vercel)
 * **Root Directory**: `frontend`
 * **Framework Preset**: `Create React App`
-* **Environment Variable**: Set `REACT_APP_BACKEND_URL` to the Render backend service URL (omit trailing slash).
+* **Environment Variable**: Set `REACT_APP_BACKEND_URL` to the Render backend service URL.
